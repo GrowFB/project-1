@@ -1,9 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
 import Customer from './component/Customer';
+import React from 'react';
+import {Paper} from '@mui/material';
+import { Component } from 'react';
+import {Table} from '@mui/material';
+import {TableHead} from '@mui/material';
+import {TableBody} from '@mui/material';
+import {TableRow} from '@mui/material';
+import {TableCell} from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
+const useStyles = makeStyles()((theme)=>{
+  return {
+  root:{
+    width: '100%',
+    marginTop: theme.spacing(3),
+    overflowX: "auto",
+  },
+  Table : {
+    minWidth: 1080 
+  }
+ };
+}) ;
+  
 
 function App() {
+
 
   const customers = [
     {
@@ -31,10 +54,22 @@ function App() {
         'job': '디자이너',
         }
 ];
-
+  const { classes } = useStyles();
   return (
     <div>
-       <div>
+       <Paper className={classes.root}>
+        <Table className={classes.Table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>번호</TableCell>
+              <TableCell>이미지</TableCell>
+              <TableCell>이름</TableCell>
+              <TableCell>생년월일</TableCell>
+              <TableCell>성별</TableCell>
+              <TableCell>직업</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
         {
         customers.map(c =>{
           return(
@@ -51,7 +86,9 @@ function App() {
 
         }) 
         }
-      </div>
+        </TableBody>
+        </Table>
+      </Paper>
     </div>
     //props를 이용해 데이터를 전달
     //배열에 각 원소에 어떤한 정보를 전달하고 싶을때 map함수 사용
