@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# 이것은 연습 프로젝트입니다.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
