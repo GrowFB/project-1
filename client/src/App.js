@@ -10,6 +10,10 @@ import {TableBody} from '@mui/material';
 import {TableRow} from '@mui/material';
 import {TableCell} from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useState } from 'react';
+import { CircularProgress } from '@mui/material';
 
 const useStyles = makeStyles()((theme)=>{
   return {
@@ -24,36 +28,27 @@ const useStyles = makeStyles()((theme)=>{
  };
 }) ;
   
-
+  
 function App() {
 
+  const [loadData, setLoadData] = useState([]);
+  useEffect(() => {
+    // axios 라이브러리를 사용하여 get요청을 받아옵니다.
+    axios
+      .get('/api/customers')
+      .then((res) => {
+      	// get요청이 성공하면 콘솔에 데이터를 띄우고 스테이트를 변경
+        console.log(res.data);
+        setLoadData(res.data);
+      })
+      .catch((err) => {
+      	// get요청이 실패하면 콘솔에 에러 메세지를 띄움
+        console.log(err);
+      });
+  }, []);
 
-  const customers = [
-    {
-    'id' : 1,
-    'image': 'https://placeimg.com/64/64/1',
-    'name': '나동현',
-    'birthday': '961222',
-    'gender': '남자',
-    'job': '대학생',
-    },
-    {
-      'id' : 2,
-      'image': 'https://placeimg.com/64/64/2',
-      'name': '홍길동',
-      'birthday': '970812',
-      'gender': '남자',
-      'job': '프로그래머',
-      },
-      {
-        'id' : 3,
-        'image': 'https://placeimg.com/64/64/3',
-        'name': '이순신',
-        'birthday': '921205',
-        'gender': '남자',
-        'job': '디자이너',
-        }
-];
+    
+
   const { classes } = useStyles();
   return (
     <div>
@@ -71,7 +66,7 @@ function App() {
           </TableHead>
           <TableBody>
         {
-        customers.map(c =>{
+          loadData ? loadData.map(c =>{
           return(
             <Customer
               key={c.id}
@@ -84,8 +79,13 @@ function App() {
             />
           );
 
-        }) 
+        }) : <TableRow>
+        <TableCell colSpan="6" align='center'>
+          <CircularProgress />
+        </TableCell>
+      </TableRow>
         }
+    
         </TableBody>
         </Table>
       </Paper>
